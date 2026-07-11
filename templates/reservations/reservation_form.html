@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Reservation | {{ site_name }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/reservation.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-header-title">RESERVATION</h1>
+            <p class="page-header-breadcrumb">
+                <a href="{% url 'core:home' %}">Home</a> &nbsp;&rsaquo;&nbsp; Reservation
+            </p>
+        </div>
+    </section>
+
+    <section class="section reservation-section">
+        <div class="container">
+            <div class="reservation-grid">
+
+                <div class="reservation-photo">
+                    <img src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=900&q=80" alt="Elegant table setting at Savory Table">
+                    <div class="reservation-photo-caption">
+                        <h3>Reserve Your Evening</h3>
+                        <p>An unforgettable dining experience awaits you.</p>
+                    </div>
+                </div>
+
+                <div class="reservation-form-card">
+                    <h2>Book Your Table</h2>
+                    <p class="reservation-form-subtitle">
+                        Fill out the form below and we'll confirm your reservation by email shortly.
+                    </p>
+
+                    <form method="post" action="{% url 'reservations:reservation_create' %}" novalidate>
+                        {% csrf_token %}
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="{{ form.full_name.id_for_label }}">Full Name</label>
+                                {{ form.full_name }}
+                                {% if form.full_name.errors %}<span class="form-error">{{ form.full_name.errors.0 }}</span>{% endif %}
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="{{ form.phone_number.id_for_label }}">Phone Number</label>
+                                {{ form.phone_number }}
+                                {% if form.phone_number.errors %}<span class="form-error">{{ form.phone_number.errors.0 }}</span>{% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.email.id_for_label }}">Email Address</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}<span class="form-error">{{ form.email.errors.0 }}</span>{% endif %}
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="{{ form.reservation_date.id_for_label }}">Date</label>
+                                {{ form.reservation_date }}
+                                {% if form.reservation_date.errors %}<span class="form-error">{{ form.reservation_date.errors.0 }}</span>{% endif %}
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="{{ form.reservation_time.id_for_label }}">Time</label>
+                                {{ form.reservation_time }}
+                                {% if form.reservation_time.errors %}<span class="form-error">{{ form.reservation_time.errors.0 }}</span>{% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.number_of_guests.id_for_label }}">Guests</label>
+                            {{ form.number_of_guests }}
+                            {% if form.number_of_guests.errors %}<span class="form-error">{{ form.number_of_guests.errors.0 }}</span>{% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.special_request.id_for_label }}">Special Request</label>
+                            {{ form.special_request }}
+                            {% if form.special_request.errors %}<span class="form-error">{{ form.special_request.errors.0 }}</span>{% endif %}
+                        </div>
+
+                        {% if form.non_field_errors %}
+                            <p class="form-error" style="margin-bottom: 16px;">{{ form.non_field_errors.0 }}</p>
+                        {% endif %}
+
+                        <button type="submit" class="btn btn-primary btn-block">Confirm Reservation</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/reservation.js' %}"></script>
+{% endblock %}

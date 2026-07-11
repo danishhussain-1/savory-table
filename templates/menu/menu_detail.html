@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ item.name }} | {{ site_name }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-header-title">{{ item.name }}</h1>
+            <p class="page-header-breadcrumb">
+                <a href="{% url 'core:home' %}">Home</a> &nbsp;&rsaquo;&nbsp;
+                <a href="{% url 'menu:menu_list' %}">Menu</a> &nbsp;&rsaquo;&nbsp; {{ item.name }}
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+
+            <div class="item-detail">
+                <div class="item-detail-image">
+                    <img src="{{ item.image.url }}" alt="{{ item.name }}">
+                </div>
+                <div class="item-detail-info">
+                    <span class="item-detail-category">{{ item.category.name }}</span>
+                    <h2 class="item-detail-name">{{ item.name }}</h2>
+                    <div class="item-detail-rating">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= item.rating %}&#9733;{% else %}&#9734;{% endif %}
+                        {% endfor %}
+                        <span class="rating-count">({{ reviews|length }} review{{ reviews|length|pluralize }})</span>
+                    </div>
+                    <div class="item-detail-price">${{ item.price }}</div>
+                    <p class="item-detail-description">{{ item.description }}</p>
+                    <div class="item-detail-actions">
+                        <a href="{% url 'reservations:reservation_create' %}" class="btn btn-primary">Reserve a Table</a>
+                        <a href="#reviews" class="btn btn-outline">Read Reviews</a>
+                    </div>
+                </div>
+            </div>
+
+            {% if related_items %}
+                <div class="related-dishes">
+                    <div class="section-header" style="text-align: left; margin-bottom: 30px;">
+                        <h3 class="section-title" style="font-size: 1.6rem;">You Might Also Like</h3>
+                    </div>
+                    <div class="related-dishes-grid">
+                        {% for related in related_items %}
+                            <a href="{{ related.get_absolute_url }}" class="card menu-item-card">
+                                <div class="menu-item-image-wrap">
+                                    <img src="{{ related.image.url }}" alt="{{ related.name }}" loading="lazy">
+                                </div>
+                                <div class="menu-item-body">
+                                    <h3 class="menu-item-name">{{ related.name }}</h3>
+                                    <div class="menu-item-meta">
+                                        <span class="menu-item-price">${{ related.price }}</span>
+                                        <span class="menu-item-rating"><span class="star">&#9733;</span> {{ related.rating }}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="item-reviews" id="reviews">
+                <div class="section-header" style="text-align: left; margin-bottom: 30px;">
+                    <h3 class="section-title" style="font-size: 1.6rem;">Customer Reviews</h3>
+                </div>
+
+                {% if user.is_authenticated %}
+                    <div class="card review-form-box">
+                        <h3>Write a Review</h3>
+                        <form method="post" action="{% url 'reviews:submit_menu_item_review' slug=item.slug %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label class="form-label">Rating</label>
+                                {{ review_form.rating }}
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Title (optional)</label>
+                                {{ review_form.title }}
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Your Review</label>
+                                {{ review_form.comment }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Review</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <p style="color: var(--color-text-muted); margin-bottom: 30px;">
+                        <a href="{% url 'accounts:login' %}" class="text-gold">Log in</a> to write a review for this dish.
+                    </p>
+                {% endif %}
+
+                {% for review in reviews %}
+                    <div class="card review-card">
+                        <div class="review-header">
+                            <div class="review-author-info">
+                                <div class="review-avatar">{{ review.user.username|first|upper }}</div>
+                                <div>
+                                    <div class="review-author-name">{{ review.user.get_full_name|default:review.user.username }}</div>
+                                    <div class="review-date">{{ review.created_at|date:"M d, Y" }}</div>
+                                </div>
+                            </div>
+                            <div class="review-stars">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= review.rating %}&#9733;{% else %}&#9734;{% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% if review.title %}<h4 class="review-title">{{ review.title }}</h4>{% endif %}
+                        <p class="review-comment">{{ review.comment }}</p>
+                    </div>
+                {% empty %}
+                    <p style="color: var(--color-text-muted);">No reviews yet for this dish. Be the first to share your experience!</p>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}

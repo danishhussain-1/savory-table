@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Our Menu | {{ site_name }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-header-title">OUR MENU</h1>
+            <p class="page-header-breadcrumb">
+                <a href="{% url 'core:home' %}">Home</a> &nbsp;&rsaquo;&nbsp; Menu
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+
+            <div class="menu-toolbar">
+                <div class="category-tabs">
+                    <a href="{% url 'menu:menu_list' %}" class="category-tab {% if not selected_category %}active{% endif %}" data-category="">All</a>
+                    {% for category in categories %}
+                        <a href="?category={{ category.slug }}" class="category-tab {% if selected_category == category.slug %}active{% endif %}" data-category="{{ category.slug }}">{{ category.name }}</a>
+                    {% endfor %}
+                </div>
+
+                <form id="menu-search-form" class="menu-search-form" method="get" action="{% url 'menu:menu_list' %}">
+                    {% if selected_category %}
+                        <input type="hidden" name="category" value="{{ selected_category }}">
+                    {% endif %}
+                    <input type="text" id="menu-search-input" name="q" class="menu-search-input" placeholder="Search for a dish..." value="{{ query }}">
+                    <button type="submit" class="menu-search-btn" aria-label="Search">&#128269;</button>
+                </form>
+            </div>
+
+            <div class="menu-grid">
+                {% for item in page_obj %}
+                    <a href="{{ item.get_absolute_url }}" class="card menu-item-card reveal-on-scroll">
+                        <div class="menu-item-image-wrap">
+                            <img src="{{ item.image.url }}" alt="{{ item.name }}" loading="lazy">
+                        </div>
+                        <div class="menu-item-body">
+                            <h3 class="menu-item-name">{{ item.name }}</h3>
+                            <div class="menu-item-meta">
+                                <span class="menu-item-price">${{ item.price }}</span>
+                                <span class="menu-item-rating"><span class="star">&#9733;</span> {{ item.rating }}</span>
+                            </div>
+                        </div>
+                    </a>
+                {% empty %}
+                    <div class="menu-empty-state">
+                        <span class="empty-icon">&#127860;</span>
+                        <p>
+                            {% if query %}
+                                No dishes found matching "{{ query }}".
+                            {% else %}
+                                No dishes available in this category yet.
+                            {% endif %}
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if page_obj.paginator.num_pages > 1 %}
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if query %}&q={{ query }}{% endif %}" class="page-link">&#8249;</a>
+                    {% else %}
+                        <span class="page-link disabled">&#8249;</span>
+                    {% endif %}
+
+                    {% for page_num in page_obj.paginator.page_range %}
+                        <a href="?page={{ page_num }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if query %}&q={{ query }}{% endif %}" class="page-link {% if page_obj.number == page_num %}active{% endif %}">{{ page_num }}</a>
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if query %}&q={{ query }}{% endif %}" class="page-link">&#8250;</a>
+                    {% else %}
+                        <span class="page-link disabled">&#8250;</span>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/menu-filter.js' %}"></script>
+{% endblock %}

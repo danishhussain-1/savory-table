@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Page Not Found | {{ site_name }}{% endblock %}
+
+{% block content %}
+    <section class="section" style="min-height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: 160px;">
+        <div class="container">
+            <h1 style="font-size: clamp(3rem, 10vw, 6rem); color: var(--color-gold); margin-bottom: 10px;">404</h1>
+            <h2 style="margin-bottom: 16px;">This Table Isn't Set</h2>
+            <p style="color: var(--color-text-muted); max-width: 480px; margin: 0 auto 32px;">
+                The page you're looking for doesn't exist or may have been moved.
+            </p>
+            <a href="{% url 'core:home' %}" class="btn btn-primary">Back to Home</a>
+        </div>
+    </section>
+{% endblock %}

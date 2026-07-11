@@ -1,0 +1,114 @@
+/* ============================================================================
+   SAVORY TABLE — CONTACT PAGE STYLESHEET
+   Two-column layout: contact info panel on the left, message form on the
+   right, followed by a full-width embedded map — completes the About/
+   Contact shared visual language (reuses about.css tokens/spacing).
+   ============================================================================ */
+
+/* ----------------------------------------------------------------------
+   1. CONTACT GRID
+   ---------------------------------------------------------------------- */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 60px;
+}
+
+/* ----------------------------------------------------------------------
+   2. INFO PANEL
+   ---------------------------------------------------------------------- */
+.contact-info-panel .section-tag {
+    margin-bottom: 16px;
+}
+
+.contact-info-title {
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+    margin-bottom: 18px;
+}
+
+.contact-info-desc {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 36px;
+}
+
+.contact-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+.contact-info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+}
+
+.contact-info-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(212, 166, 74, 0.12);
+    color: var(--color-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.contact-info-item h4 {
+    font-size: 1rem;
+    color: var(--color-white);
+    margin-bottom: 4px;
+}
+
+.contact-info-item p {
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+}
+
+/* ----------------------------------------------------------------------
+   3. FORM PANEL
+   ---------------------------------------------------------------------- */
+.contact-form-panel {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+}
+
+.contact-form-panel h3 {
+    font-size: 1.3rem;
+    margin-bottom: 26px;
+}
+
+/* ----------------------------------------------------------------------
+   4. MAP
+   ---------------------------------------------------------------------- */
+.contact-map {
+    line-height: 0;
+    filter: grayscale(30%) contrast(1.1);
+    border-top: 1px solid var(--color-border);
+}
+
+/* ----------------------------------------------------------------------
+   5. RESPONSIVE
+   ---------------------------------------------------------------------- */
+@media (max-width: 992px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+@media (max-width: 560px) {
+    .contact-form-panel {
+        padding: 26px 22px;
+    }
+
+    .contact-info-item {
+        gap: 14px;
+    }
+}

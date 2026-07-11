@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login | {{ site_name }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <section class="auth-section">
+        <div class="auth-card">
+            <div class="auth-header">
+                <a href="{% url 'core:home' %}" class="auth-logo">
+                    <span class="logo-icon">&#10021;</span>
+                    <span>{{ site_name }}</span>
+                </a>
+                <h2>Welcome Back</h2>
+                <p>Log in to manage your reservations and reviews.</p>
+            </div>
+
+            <form method="post" action="{% url 'accounts:login' %}" class="auth-form" novalidate>
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label class="form-label" for="{{ form.username.id_for_label }}">Username</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}<span class="form-error">{{ form.username.errors.0 }}</span>{% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="{{ form.password.id_for_label }}">Password</label>
+                    {{ form.password }}
+                    {% if form.password.errors %}<span class="form-error">{{ form.password.errors.0 }}</span>{% endif %}
+                </div>
+
+                {% if form.non_field_errors %}
+                    <p class="form-error" style="margin-bottom: 16px;">{{ form.non_field_errors.0 }}</p>
+                {% endif %}
+
+                <input type="hidden" name="next" value="{{ next }}">
+
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+
+            <div class="auth-form-footer">
+                Don't have an account? <a href="{% url 'accounts:register' %}">Create one</a>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

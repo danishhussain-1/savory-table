@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us | {{ site_name }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-header-title">ABOUT US</h1>
+            <p class="page-header-breadcrumb">
+                <a href="{% url 'core:home' %}">Home</a> &nbsp;&rsaquo;&nbsp; About
+            </p>
+        </div>
+    </section>
+
+    <section class="section about-story">
+        <div class="container">
+            <div class="about-story-grid">
+                <div class="about-text">
+                    <span class="section-tag">Our Journey</span>
+                    <h2>A Culinary Experience<br>Like No Other</h2>
+                    <p>
+                        At Savory Table, we believe that great food brings people
+                        together. Our mission is to deliver an unforgettable dining
+                        experience through exceptional service, delicious food, and a
+                        warm ambience that feels like home.
+                    </p>
+
+                    <ul class="about-checklist">
+                        <li><span class="check-icon">&#10003;</span> Fresh &amp; Quality Ingredients</li>
+                        <li><span class="check-icon">&#10003;</span> Expert &amp; Passionate Chefs</li>
+                        <li><span class="check-icon">&#10003;</span> Unique &amp; Delicious Recipes</li>
+                        <li><span class="check-icon">&#10003;</span> Excellent Customer Service</li>
+                    </ul>
+
+                    <a href="{% url 'menu:menu_list' %}" class="btn btn-primary">Learn More</a>
+                </div>
+
+                <div class="about-image-collage">
+                    <div class="collage-main">
+                        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80" alt="Chef preparing a dish">
+                    </div>
+                    <div class="collage-secondary-row">
+                        <div class="collage-item">
+                            <img src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=500&q=80" alt="Plated dish close-up">
+                        </div>
+                        <div class="collage-item">
+                            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&q=80" alt="Restaurant dining room">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section about-features-bar">
+        <div class="container">
+            <div class="about-features-grid">
+                <div class="about-feature-card reveal-on-scroll">
+                    <div class="about-feature-icon">&#127860;</div>
+                    <h3 class="about-feature-title">Quality Food</h3>
+                    <p class="about-feature-desc">Made with the best ingredients</p>
+                </div>
+                <div class="about-feature-card reveal-on-scroll">
+                    <div class="about-feature-icon">&#128077;</div>
+                    <h3 class="about-feature-title">Expert Chefs</h3>
+                    <p class="about-feature-desc">Trained &amp; experienced professionals</p>
+                </div>
+                <div class="about-feature-card reveal-on-scroll">
+                    <div class="about-feature-icon">&#127968;</div>
+                    <h3 class="about-feature-title">Best Ambience</h3>
+                    <p class="about-feature-desc">Cozy, warm &amp; welcoming place</p>
+                </div>
+                <div class="about-feature-card reveal-on-scroll">
+                    <div class="about-feature-icon">&#128077;</div>
+                    <h3 class="about-feature-title">Happy Customers</h3>
+                    <p class="about-feature-desc">Our customers love our service</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Reservations | {{ site_name }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/reservation.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-header-title">MY RESERVATIONS</h1>
+            <p class="page-header-breadcrumb">
+                <a href="{% url 'core:home' %}">Home</a> &nbsp;&rsaquo;&nbsp;
+                <a href="{% url 'accounts:dashboard' %}">Dashboard</a> &nbsp;&rsaquo;&nbsp; My Reservations
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="reservations-list">
+                {% for reservation in reservations %}
+                    <div class="card reservation-item">
+                        <div class="reservation-item-info">
+                            <div class="reservation-date-badge">
+                                <span class="day">{{ reservation.reservation_date|date:"d" }}</span>
+                                <span class="month">{{ reservation.reservation_date|date:"M Y" }}</span>
+                            </div>
+                            <div class="reservation-details">
+                                <h4>{{ reservation.reservation_time|time:"g:i A" }} &middot; {{ reservation.number_of_guests }} Guest{{ reservation.number_of_guests|pluralize }}</h4>
+                                <p>{{ reservation.full_name }} &middot; {{ reservation.phone_number }}</p>
+                                {% if reservation.special_request %}
+                                    <p>Note: {{ reservation.special_request|truncatewords:12 }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="reservation-item-actions">
+                            <span class="reservation-status status-{{ reservation.status }}">{{ reservation.get_status_display }}</span>
+                            {% if reservation.is_upcoming %}
+                                <form method="post" action="{% url 'reservations:cancel_reservation' pk=reservation.pk %}" onsubmit="return confirm('Are you sure you want to cancel this reservation?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline btn-sm">Cancel</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="reservations-empty">
+                        <span class="empty-icon">&#128197;</span>
+                        <p>You haven't made any reservations yet.</p>
+                        <a href="{% url 'reservations:reservation_create' %}" class="btn btn-primary" style="margin-top: 20px;">Book a Table</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

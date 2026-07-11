@@ -1,0 +1,17 @@
+{% comment %}
+Full-screen loading overlay shown briefly while the page and its
+assets finish loading. Fades out via JavaScript (static/js/loading.js)
+once the window's "load" event fires, giving the site a premium,
+app-like first impression instead of a jarring blank flash.
+{% endcomment %}
+<div id="loading-screen" class="loading-screen">
+    <div class="loading-content">
+        <div class="loading-logo">
+            <span class="loading-icon">&#10021;</span>
+            <span class="loading-text">{{ site_name }}</span>
+        </div>
+        <div class="loading-bar">
+            <div class="loading-bar-fill"></div>
+        </div>
+    </div>
+</div>

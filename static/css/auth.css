@@ -1,0 +1,120 @@
+/* ============================================================================
+   SAVORY TABLE — AUTHENTICATION STYLESHEET
+   Login & Register pages: centered card layout on a dark ambient background,
+   matching the overall luxury fine-dining aesthetic.
+   ============================================================================ */
+
+/* ----------------------------------------------------------------------
+   1. AUTH PAGE WRAPPER
+   ---------------------------------------------------------------------- */
+.auth-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 140px 24px 80px;
+    position: relative;
+    background:
+        linear-gradient(180deg, rgba(13,10,8,0.75), rgba(13,10,8,0.92)),
+        url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80');
+    background-size: cover;
+    background-position: center;
+}
+
+.auth-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 48px 44px;
+    width: 100%;
+    max-width: 460px;
+    box-shadow: var(--shadow-card);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.auth-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--color-white);
+    margin-bottom: 20px;
+}
+
+.auth-logo .logo-icon {
+    color: var(--color-gold);
+    font-size: 1.6rem;
+}
+
+.auth-header h2 {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+}
+
+.auth-header p {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+}
+
+/* ----------------------------------------------------------------------
+   2. AUTH FORM
+   ---------------------------------------------------------------------- */
+.auth-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.auth-form-footer {
+    text-align: center;
+    margin-top: 24px;
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+}
+
+.auth-form-footer a {
+    color: var(--color-gold);
+    font-weight: 600;
+}
+
+.auth-form-footer a:hover {
+    text-decoration: underline;
+}
+
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 24px 0;
+    color: var(--color-text-faint);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--color-border);
+}
+
+/* ----------------------------------------------------------------------
+   3. RESPONSIVE
+   ---------------------------------------------------------------------- */
+@media (max-width: 560px) {
+    .auth-card {
+        padding: 34px 26px;
+    }
+
+    .auth-form .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}

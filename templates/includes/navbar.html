@@ -1,0 +1,58 @@
+{% load static %}
+{% comment %}
+Sticky top navigation bar matching the reference design: logo on the
+left, centered nav links, and a prominent "Book a Table" call-to-action
+button on the right. Becomes compact/opaque on scroll via
+static/js/scroll-effects.js.
+{% endcomment %}
+<header class="navbar" id="navbar">
+    <div class="navbar-container">
+        <a href="{% url 'core:home' %}" class="navbar-logo">
+            <span class="logo-icon">&#10021;</span>
+            <span class="logo-text">{{ site_name }}</span>
+        </a>
+
+        <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav class="navbar-links" id="navbar-links">
+            <a href="{% url 'core:home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a>
+            <a href="{% url 'core:about' %}" class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a>
+            <a href="{% url 'menu:menu_list' %}" class="nav-link {% if request.resolver_match.app_name == 'menu' %}active{% endif %}">Menu</a>
+            <a href="{% url 'gallery:gallery' %}" class="nav-link {% if request.resolver_match.app_name == 'gallery' %}active{% endif %}">Gallery</a>
+            <a href="{% url 'reservations:reservation_create' %}" class="nav-link {% if request.resolver_match.url_name == 'reservation_create' %}active{% endif %}">Reservation</a>
+            <a href="{% url 'reviews:review_list' %}" class="nav-link {% if request.resolver_match.app_name == 'reviews' %}active{% endif %}">Reviews</a>
+            <a href="{% url 'core:contact' %}" class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'accounts:dashboard' %}" class="nav-link nav-link-mobile-only">My Dashboard</a>
+                <form method="post" action="{% url 'accounts:logout' %}" class="nav-link-mobile-only" style="margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-link" style="background: none; border: none; padding: 4px 0; width: 100%; text-align: left; cursor: pointer;">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'accounts:login' %}" class="nav-link nav-link-mobile-only">Login</a>
+            {% endif %}
+        </nav>
+
+        <div class="navbar-actions">
+            {% if user.is_authenticated %}
+                <a href="{% url 'accounts:dashboard' %}" class="navbar-user" title="My Dashboard">
+                    {% if user.profile.avatar %}
+                        <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="navbar-avatar">
+                    {% else %}
+                        <span class="navbar-avatar-fallback">{{ user.username|first|upper }}</span>
+                    {% endif %}
+                </a>
+            {% else %}
+                <a href="{% url 'accounts:login' %}" class="navbar-user" title="Login">
+                    <span class="navbar-avatar-fallback">&#128100;</span>
+                </a>
+            {% endif %}
+            <a href="{% url 'reservations:reservation_create' %}" class="btn btn-primary btn-nav">Book a Table</a>
+        </div>
+    </div>
+</header>

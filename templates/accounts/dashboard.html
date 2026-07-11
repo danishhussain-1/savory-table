@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Dashboard | {{ site_name }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reservation.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <section class="dashboard-section">
+        <div class="container">
+            <div class="dashboard-layout">
+
+                <aside class="dashboard-sidebar">
+                    <div class="sidebar-profile">
+                        <div class="sidebar-avatar">
+                            {% if user.profile.avatar %}
+                                <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}">
+                            {% else %}
+                                <span class="sidebar-avatar-fallback">{{ user.username|first|upper }}</span>
+                            {% endif %}
+                        </div>
+                        <h3>{{ user.get_full_name|default:user.username }}</h3>
+                        <p>{{ user.email }}</p>
+                    </div>
+
+                    <nav class="sidebar-nav">
+                        <a href="{% url 'accounts:dashboard' %}" class="sidebar-nav-link active">
+                            <span class="nav-icon">&#9635;</span> Dashboard
+                        </a>
+                        <a href="{% url 'reservations:my_reservations' %}" class="sidebar-nav-link">
+                            <span class="nav-icon">&#128197;</span> My Reservations
+                        </a>
+                        <a href="{% url 'accounts:profile' %}" class="sidebar-nav-link">
+                            <span class="nav-icon">&#128100;</span> Edit Profile
+                        </a>
+                        <a href="{% url 'reservations:reservation_create' %}" class="sidebar-nav-link">
+                            <span class="nav-icon">&#127860;</span> Book a Table
+                        </a>
+                        <form method="post" action="{% url 'accounts:logout' %}" style="margin: 0;">
+                            {% csrf_token %}
+                            <button type="submit" class="sidebar-nav-link" style="background: none; border: none; width: 100%; text-align: left; cursor: pointer; font-family: inherit;">
+                                <span class="nav-icon">&#10132;</span> Logout
+                            </button>
+                        </form>
+                    </nav>
+                </aside>
+
+                <div class="dashboard-main">
+                    <div class="dashboard-stats-grid">
+                        <div class="card dashboard-stat-card">
+                            <div class="dashboard-stat-icon">&#128197;</div>
+                            <div>
+                                <div class="dashboard-stat-value">{{ total_reservations }}</div>
+                                <div class="dashboard-stat-label">Total Reservations</div>
+                            </div>
+                        </div>
+                        <div class="card dashboard-stat-card">
+                            <div class="dashboard-stat-icon">&#9203;</div>
+                            <div>
+                                <div class="dashboard-stat-value">{{ upcoming_reservations|length }}</div>
+                                <div class="dashboard-stat-label">Upcoming Bookings</div>
+                            </div>
+                        </div>
+                        <div class="card dashboard-stat-card">
+                            <div class="dashboard-stat-icon">&#11088;</div>
+                            <div>
+                                <div class="dashboard-stat-value">{{ my_reviews|length }}</div>
+                                <div class="dashboard-stat-label">Reviews Written</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-panel">
+                        <div class="dashboard-panel-header">
+                            <h3>Upcoming Reservations</h3>
+                            <a href="{% url 'reservations:my_reservations' %}">View All</a>
+                        </div>
+                        <div class="reservations-list">
+                            {% for reservation in upcoming_reservations %}
+                                <div class="card reservation-item">
+                                    <div class="reservation-item-info">
+                                        <div class="reservation-date-badge">
+                                            <span class="day">{{ reservation.reservation_date|date:"d" }}</span>
+                                            <span class="month">{{ reservation.reservation_date|date:"M Y" }}</span>
+                                        </div>
+                                        <div class="reservation-details">
+                                            <h4>{{ reservation.reservation_time|time:"g:i A" }} &middot; {{ reservation.number_of_guests }} Guest{{ reservation.number_of_guests|pluralize }}</h4>
+                                            <p>{{ reservation.full_name }}</p>
+                                        </div>
+                                    </div>
+                                    <span class="reservation-status status-{{ reservation.status }}">{{ reservation.get_status_display }}</span>
+                                </div>
+                            {% empty %}
+                                <p style="color: var(--color-text-muted);">No upcoming reservations. <a href="{% url 'reservations:reservation_create' %}" class="text-gold">Book a table</a> now.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="dashboard-panel">
+                        <div class="dashboard-panel-header">
+                            <h3>My Reviews</h3>
+                        </div>
+                        <div class="reservations-list">
+                            {% for review in my_reviews %}
+                                <div class="card reservation-item">
+                                    <div class="reservation-details">
+                                        <h4>
+                                            {% for i in "12345" %}{% if forloop.counter <= review.rating %}&#9733;{% else %}&#9734;{% endif %}{% endfor %}
+                                            {% if review.menu_item %} &mdash; {{ review.menu_item.name }}{% else %} &mdash; General Review{% endif %}
+                                        </h4>
+                                        <p>{{ review.comment|truncatewords:18 }}</p>
+                                    </div>
+                                    <span class="reservation-status {% if review.is_approved %}status-confirmed{% else %}status-pending{% endif %}">
+                                        {% if review.is_approved %}Published{% else %}Pending Approval{% endif %}
+                                    </span>
+                                </div>
+                            {% empty %}
+                                <p style="color: var(--color-text-muted);">You haven't written any reviews yet.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

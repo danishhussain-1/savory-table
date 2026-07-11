@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gallery | {{ site_name }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/gallery.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-header-title">GALLERY</h1>
+            <p class="page-header-breadcrumb">
+                <a href="{% url 'core:home' %}">Home</a> &nbsp;&rsaquo;&nbsp; Gallery
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+
+            <div class="gallery-filter-tabs">
+                <button class="gallery-tab active" data-category="all">All</button>
+                {% for category in categories %}
+                    <button class="gallery-tab" data-category="{{ category.slug }}">{{ category.name }}</button>
+                {% endfor %}
+            </div>
+
+            <div class="gallery-grid">
+                {% for image in images %}
+                    <div class="gallery-item {% if image.is_featured %}featured{% endif %}" data-category="{{ image.category.slug }}">
+                        <img src="{{ image.image.url }}" alt="{{ image.title|default:image.category.name }}" loading="lazy">
+                        <div class="gallery-zoom-icon">&#128269;</div>
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-content">
+                                <h4>{{ image.title|default:image.category.name }}</h4>
+                                <span>{{ image.category.name }}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="gallery-empty-state">
+                        <span class="empty-icon">&#128247;</span>
+                        <p>Gallery photos will appear here once added by the restaurant team.</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Lightbox overlay -->
+    <div class="lightbox-overlay" id="lightbox-overlay">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+            <img src="" alt="" id="lightbox-image">
+            <p class="lightbox-caption" id="lightbox-caption"></p>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/gallery-filter.js' %}"></script>
+{% endblock %}

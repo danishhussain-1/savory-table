@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ site_name }} | Fine Dining Restaurant{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <!-- ================= HERO SLIDER ================= -->
+    <section class="hero">
+        <div class="hero-slider" id="hero-slider">
+            <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&q=80');"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80');"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1552566626-52f8b828add9?w=1600&q=80');"></div>
+
+            <div class="hero-content">
+                <p class="hero-welcome">Welcome to</p>
+                <h1 class="hero-title">SAVORY <span class="highlight">TABLE</span></h1>
+                <p class="hero-divider">Fine Dining Restaurant</p>
+                <p class="hero-description">
+                    Experience the perfect blend of modern cuisine and timeless flavors
+                    in the heart of the USA.
+                </p>
+                <div class="hero-actions">
+                    <a href="{% url 'reservations:reservation_create' %}" class="btn btn-primary">Book a Table</a>
+                    <a href="{% url 'menu:menu_list' %}" class="btn btn-outline">View Menu</a>
+                </div>
+            </div>
+
+            <button class="hero-nav prev" id="hero-prev" aria-label="Previous slide">&#8249;</button>
+            <button class="hero-nav next" id="hero-next" aria-label="Next slide">&#8250;</button>
+            <div class="hero-dots" id="hero-dots"></div>
+        </div>
+
+        <div class="hero-features">
+            <div class="feature-item"><span class="feature-icon">&#10021;</span> Fresh Ingredients</div>
+            <div class="feature-item"><span class="feature-icon">&#128077;</span> Expert Chefs</div>
+            <div class="feature-item"><span class="feature-icon">&#127968;</span> Cozy Ambience</div>
+            <div class="feature-item"><span class="feature-icon">&#11088;</span> Best Service</div>
+        </div>
+    </section>
+
+    <!-- ================= SPECIAL DISHES (CHEF'S CHOICE) ================= -->
+    <section class="section special-dishes">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Chef's Choice</span>
+                <h2 class="section-title">Our Special Dishes</h2>
+                <p class="section-subtitle">A selection of our most loved dishes</p>
+            </div>
+
+            <div class="dishes-grid">
+                {% for dish in featured_dishes %}
+                    <a href="{{ dish.get_absolute_url }}" class="dish-card reveal-on-scroll">
+                        <div class="dish-image-wrap">
+                            <img src="{{ dish.image.url }}" alt="{{ dish.name }}" loading="lazy">
+                        </div>
+                        <div class="dish-info">
+                            <h3 class="dish-name">{{ dish.name }}</h3>
+                            <div class="dish-meta">
+                                <span class="dish-price">${{ dish.price }}</span>
+                                <span class="dish-rating"><span class="star">&#9733;</span> {{ dish.rating }}</span>
+                            </div>
+                        </div>
+                    </a>
+                {% empty %}
+                    <p style="grid-column: 1 / -1; text-align: center; color: #6b6259;">
+                        Featured dishes will appear here once added by the restaurant team.
+                    </p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= CHEF'S STORY ================= -->
+    <section class="section chef-story">
+        <div class="container">
+            <div class="chef-story-grid">
+                <div class="chef-media">
+                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80" alt="Savory Table dining room">
+                    <button class="chef-video-play" aria-label="Play video">&#9654;</button>
+                </div>
+                <div class="chef-media">
+                    <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80" alt="Head Chef John Anderson">
+                </div>
+                <div class="chef-text">
+                    <span class="section-tag">Our Story</span>
+                    <h2>Passion For Food<br>Love For People</h2>
+                    <p>
+                        Savory Table was born out of a passion for exceptional food and
+                        heartfelt hospitality. Our chefs craft each dish with fresh
+                        ingredients and a creative touch.
+                    </p>
+                    <p class="chef-signature">John Anderson</p>
+                    <p class="chef-signature-title">Head Chef</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= STATS BAR ================= -->
+    <section class="stats-bar">
+        <div class="container">
+            <div class="stats-grid">
+                {% for stat in site_stats %}
+                    <div class="stat-item">
+                        <div class="stat-icon">&#10022;</div>
+                        <div class="stat-value">{{ stat.value }}</div>
+                        <div class="stat-label">{{ stat.label }}</div>
+                    </div>
+                {% empty %}
+                    <div class="stat-item">
+                        <div class="stat-icon">&#10022;</div>
+                        <div class="stat-value">10+</div>
+                        <div class="stat-label">Years of Experience</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">&#10022;</div>
+                        <div class="stat-value">50+</div>
+                        <div class="stat-label">Delicious Dishes</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">&#10022;</div>
+                        <div class="stat-value">15K+</div>
+                        <div class="stat-label">Happy Customers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">&#10022;</div>
+                        <div class="stat-value">20+</div>
+                        <div class="stat-label">Awards Won</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= LATEST REVIEWS PREVIEW ================= -->
+    <section class="section home-reviews">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Testimonials</span>
+                <h2 class="section-title">What Our Guests Say</h2>
+                <p class="section-subtitle">Real experiences from our valued customers</p>
+            </div>
+
+            <div class="home-reviews-grid">
+                {% for review in latest_reviews %}
+                    <div class="card home-review-card reveal-on-scroll">
+                        <div class="home-review-stars">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= review.rating %}&#9733;{% else %}&#9734;{% endif %}
+                            {% endfor %}
+                        </div>
+                        <p class="home-review-comment">&ldquo;{{ review.comment|truncatewords:22 }}&rdquo;</p>
+                        <div class="home-review-author">
+                            <div class="home-review-avatar">{{ review.user.username|first|upper }}</div>
+                            <span class="home-review-name">{{ review.user.get_full_name|default:review.user.username }}</span>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p style="grid-column: 1 / -1; text-align: center; color: var(--color-text-muted);">
+                        Be the first to leave a review!
+                    </p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/slider.js' %}"></script>
+{% endblock %}

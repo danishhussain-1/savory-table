@@ -1,0 +1,80 @@
+/* ============================================================================
+   SAVORY TABLE — REVIEWS PAGE STYLESHEET
+   Public "What Our Guests Say" page: review submission card + a responsive
+   grid of approved testimonials, reusing review-card styles from menu.css
+   for consistency with dish-level reviews.
+   ============================================================================ */
+
+/* ----------------------------------------------------------------------
+   1. REVIEW SUBMIT FORM
+   ---------------------------------------------------------------------- */
+.reviews-intro {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 48px;
+}
+
+.review-submit-card {
+    max-width: 640px;
+    margin: 0 auto 60px;
+    padding: 36px 40px;
+}
+
+.review-submit-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 22px;
+    text-align: center;
+}
+
+.review-login-prompt {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 60px;
+    padding: 30px;
+    color: var(--color-text-muted);
+}
+
+/* ----------------------------------------------------------------------
+   2. REVIEWS GRID
+   ---------------------------------------------------------------------- */
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 26px;
+    margin-bottom: 48px;
+}
+
+.reviews-empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--color-text-muted);
+}
+
+.reviews-empty-state .empty-icon {
+    font-size: 2.5rem;
+    color: var(--color-gold);
+    margin-bottom: 16px;
+    display: block;
+}
+
+/* ----------------------------------------------------------------------
+   3. RESPONSIVE
+   ---------------------------------------------------------------------- */
+@media (max-width: 992px) {
+    .reviews-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .review-submit-card {
+        padding: 26px 22px;
+    }
+}
+
+@media (max-width: 560px) {
+    .reviews-grid {
+        grid-template-columns: 1fr;
+    }
+}
