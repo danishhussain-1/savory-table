@@ -94,7 +94,29 @@ python manage.py runserver
 
 # 📸 Screenshots
 
-Screenshots will be added soon.
+## 🏠 Home
+
+![Home](screenshots/home-hero.png)
+
+## 🍽️ Menu
+
+![Menu](screenshots/menu-section.png)
+
+## 👨‍🍳 About
+
+![About](screenshots/about-section.png)
+
+## 🖼️ Gallery
+
+![Gallery](screenshots/gallery-section.png)
+
+## 📅 Reservation
+
+![Reservation](screenshots/reservation-section.png)
+
+## 📞 Contact
+
+![Contact](screenshots/contact-section.png)
 
 ---
 
