@@ -96,7 +96,7 @@ python manage.py runserver
 
 ## 🏠 Home
 
-![Home](screenshots/home-hero.png)
+![Home](screenshots/home.png)
 ## 🍽️ Menu
 
 ![Menu](screenshots/menu-section.png)
